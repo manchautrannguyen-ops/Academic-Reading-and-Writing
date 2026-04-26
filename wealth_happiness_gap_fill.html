@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth & Happiness — Gap Fill Exercise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --paper: #fdfaf4;
+    --ink: #1a1209;
+    --ink-light: #4a3f2e;
+    --accent: #8b3a1a;
+    --accent-light: #c4622d;
+    --gold: #b8860b;
+    --green: #2d5a27;
+    --border: #d4c9b0;
+    --gap-bg: #fff8ec;
+    --gap-border: #c4622d;
+    --gap-focus: #8b3a1a;
+    --correct: #2d5a27;
+    --wrong: #8b1a1a;
+    --hint-bg: #fffbf0;
+    --hint-border: #b8860b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.85;
+    min-height: 100vh;
+  }
+
+  /* Subtle paper texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+  }
+
+  .header-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  header p.subtitle {
+    font-style: italic;
+    font-size: 15px;
+    color: #c4b89a;
+    max-width: 600px;
+  }
+
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 24px;
+    max-width: 400px;
+  }
+  .progress-bar {
+    height: 6px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent-light), var(--gold));
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: #a09070;
+    margin-top: 6px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    padding: 18px 40px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .btn {
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border: 1.5px solid transparent;
+    border-radius: 3px;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink-light);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { background: var(--bg); border-color: var(--ink-light); }
+
+  .btn-gold {
+    background: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .btn-gold:hover { background: var(--gold); color: #fff; }
+
+  .score-display {
+    margin-left: auto;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--ink-light);
+  }
+  .score-display span { color: var(--accent); font-weight: 700; }
+
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .essay-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .essay-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+    color: var(--ink-light);
+    margin-bottom: 36px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 0 auto 36px;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 38px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sub-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-light);
+    margin: 24px 0 8px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  /* Gap input */
+  .gap-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: bottom;
+    position: relative;
+    margin: 0 2px;
+  }
+
+  .gap-input {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    background: var(--gap-bg);
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    outline: none;
+    padding: 1px 4px 0;
+    color: var(--ink);
+    text-align: center;
+    border-radius: 2px 2px 0 0;
+    transition: all 0.2s;
+    min-width: 90px;
+    width: var(--w, 90px);
+  }
+
+  .gap-input:focus {
+    background: #fff;
+    border-bottom-color: var(--gap-focus);
+    box-shadow: 0 2px 0 0 var(--gap-focus);
+  }
+
+  .gap-input.correct {
+    background: #f0faf0;
+    border-bottom-color: var(--correct);
+    color: var(--correct);
+    font-weight: 600;
+  }
+
+  .gap-input.wrong {
+    background: #fff5f5;
+    border-bottom-color: var(--wrong);
+    color: var(--wrong);
+    animation: shake 0.35s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  .gap-number {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--accent-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 1px;
+    font-family: 'Source Serif 4', serif;
+  }
+
+  /* Hint tooltip */
+  .hint-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--gold);
+    padding: 0 2px;
+    vertical-align: super;
+    line-height: 1;
+    transition: color 0.15s;
+    font-family: serif;
+  }
+  .hint-btn:hover { color: var(--accent); }
+
+  .hint-popup {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--hint-bg);
+    border: 1.5px solid var(--hint-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--ink-light);
+    font-style: italic;
+    white-space: nowrap;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    pointer-events: none;
+  }
+  .hint-popup::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--hint-border);
+  }
+  .hint-btn:hover + .hint-popup,
+  .hint-btn:focus + .hint-popup {
+    display: block;
+  }
+
+  /* Answer revealed */
+  .gap-input.revealed {
+    background: #fdf5e0;
+    border-bottom-color: var(--gold);
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* Results panel */
+  #results-panel {
+    display: none;
+    background: var(--paper);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin-top: 48px;
+    text-align: center;
+  }
+  #results-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  #results-panel .big-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 54px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin: 12px 0;
+  }
+  #results-panel .big-score span { color: var(--accent); }
+  #results-panel p { font-size: 15px; color: var(--ink-light); margin-bottom: 0; }
+
+  .ref {
+    font-size: 13px;
+    color: var(--ink-light);
+    vertical-align: super;
+    line-height: 1;
+  }
+
+  @media (max-width: 600px) {
+    header, .controls, main { padding-left: 20px; padding-right: 20px; }
+    .gap-input { min-width: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Academic Reading — Gap Fill Exercise</div>
+  <h1>Wealth and Happiness</h1>
+  <p class="subtitle">Fill in the missing academic words and collocations. Hover the hint icon for a clue.</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+  <div class="progress-label" id="progress-label">0 / 40 gaps completed</div>
+</header>
+
+<div class="controls">
+  <button class="btn btn-primary" onclick="checkAll()">✓ Check All Answers</button>
+  <button class="btn btn-gold" onclick="revealAll()">👁 Reveal All</button>
+  <button class="btn btn-secondary" onclick="resetAll()">↺ Reset</button>
+  <div class="score-display" id="score-display" style="display:none">Score: <span id="score-val">0</span> / <span id="total-val">40</span></div>
+</div>
+
+<main>
+  <div class="essay-title">Does Additional Wealth Make Citizens of Rich Countries Happier?<br>A Critical Examination of the Easterlin Paradox</div>
+  <div class="essay-subtitle">IELTS Academic Essay — Gap Fill Exercise</div>
+  <div class="divider"></div>
+
+  <!-- INTRODUCTION -->
+  <div class="section-heading">Introduction</div>
+  <p>
+    The proposition that "if a country is already rich, any addition in economic wealth does not make its citizen happier" is a direct 
+    <span class="gap-wrap"><span class="gap-number">#1</span><input class="gap-input" data-answer="expression" data-hint="direct ___ of = a clear statement of" style="--w:105px" placeholder="…" spellcheck="false"></span>
+    of what has come to be known as the Easterlin Paradox — one of the most famous and 
+    <span class="gap-wrap"><span class="gap-number">#2</span><input class="gap-input" data-answer="contested" data-hint="highly debated / disputed" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    findings in the social sciences. First 
+    <span class="gap-wrap"><span class="gap-number">#3</span><input class="gap-input" data-answer="articulated" data-hint="formally stated / expressed" style="--w:105px" placeholder="…" spellcheck="false"></span>
+    by economist Richard Easterlin in 1974, the paradox states that within a country at a given time, richer individuals are happier than poorer ones; yet across time, average happiness does not increase as a country's income grows [1,2]. The debate over this proposition has generated decades of empirical research, and the answer is far more 
+    <span class="gap-wrap"><span class="gap-number">#4</span><input class="gap-input" data-answer="nuanced" data-hint="subtle, complex, not black-and-white" style="--w:95px" placeholder="…" spellcheck="false"></span>
+    than a simple "yes" or "no."
+  </p>
+
+  <!-- SECTION 1 -->
+  <div class="section-heading">1. The Original Formulation of the Paradox</div>
+  <p>
+    Easterlin's original 1974 paper (and his subsequent 1995 update) 
+    <span class="gap-wrap"><span class="gap-number">#5</span><input class="gap-input" data-answer="argued" data-hint="claimed / contended (past tense)" style="--w:80px" placeholder="…" spellcheck="false"></span>
+    based on data from the United States, Japan, and nine European countries that while income and happiness are positively 
+    <span class="gap-wrap"><span class="gap-number">#6</span><input class="gap-input" data-answer="correlated" data-hint="statistically linked / associated" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    in cross-sectional comparisons, long-run economic growth does not produce rising happiness [1,2]. Easterlin's explanation 
+    <span class="gap-wrap"><span class="gap-number">#7</span><input class="gap-input" data-answer="centered" data-hint="___ on = focused on / revolved around" style="--w:85px" placeholder="…" spellcheck="false"></span>
+    on two mechanisms. First, social comparison — people evaluate their income relative to others, so if everyone's income rises proportionally, relative positions remain unchanged. Second, hedonic adaptation — rising aspirations adjust upward with income, so the subjective "living level norm" increases in proportion to actual income, leaving perceived well-being unchanged [2]. As Easterlin (1995) 
+    <span class="gap-wrap"><span class="gap-number">#8</span><input class="gap-input" data-answer="concluded" data-hint="reached a final judgment / stated in summary" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    : "raising the incomes of all does not increase the happiness of all" [1].
+  </p>
+
+  <!-- SECTION 2 -->
+  <div class="section-heading">2. The Case for the Proposition: Evidence Supporting the Paradox</div>
+  <p>
+    Several 
+    <span class="gap-wrap"><span class="gap-number">#9</span><input class="gap-input" data-answer="lines" data-hint="___ of evidence = categories / streams of evidence" style="--w:65px" placeholder="…" spellcheck="false"></span>
+    of evidence support the claim that above a certain threshold, further economic growth has limited effects on well-being.
+  </p>
+
+  <div class="sub-heading">Hedonic adaptation and the treadmill effects.</div>
+  <p>
+    Keely (2005) developed a 
+    <span class="gap-wrap"><span class="gap-number">#10</span><input class="gap-input" data-answer="formal" data-hint="rigorous, mathematical (___ model)" style="--w:80px" placeholder="…" spellcheck="false"></span>
+    model showing that well-being depends on both the level of consumption and the growth in the variety of goods consumed, and that in developed economies, increases in income and variety have not been accompanied by increases in reported well-being — a phenomenon she 
+    <span class="gap-wrap"><span class="gap-number">#11</span><input class="gap-input" data-answer="termed" data-hint="labelled / called / named" style="--w:75px" placeholder="…" spellcheck="false"></span>
+    the "hedonic treadmill" [3]. Similarly, Binswanger (2006) 
+    <span class="gap-wrap"><span class="gap-number">#12</span><input class="gap-input" data-answer="identified" data-hint="recognised and named" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    multiple treadmill mechanisms — positional treadmill (status competition), hedonic treadmill (adaptation), multi-option treadmill (choice overload), and time-saving treadmill (accelerated pace of life) — that collectively work to 
+    <span class="gap-wrap"><span class="gap-number">#13</span><input class="gap-input" data-answer="nullify" data-hint="cancel out / negate completely" style="--w:80px" placeholder="…" spellcheck="false"></span>
+    the happiness gains from income growth in affluent societies [4].
+  </p>
+
+  <div class="sub-heading">The focusing illusion.</div>
+  <p>
+    Kahneman et al. (2006) showed using experience-sampling methods that people with above-average income are relatively satisfied with their lives but are barely happier than others in moment-to-moment experience and tend to be more tense. They argue that people 
+    <span class="gap-wrap"><span class="gap-number">#14</span><input class="gap-input" data-answer="exaggerate" data-hint="overestimate / overstate" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    the contribution of income to happiness because of a "focusing illusion" — when asked about life satisfaction, people focus on conventional achievements like income rather than their actual daily experiences [5].
+  </p>
+
+  <div class="sub-heading">Long-run time series evidence.</div>
+  <p>
+    Easterlin et al. (2010) 
+    <span class="gap-wrap"><span class="gap-number">#15</span><input class="gap-input" data-answer="analyzed" data-hint="examined systematically" style="--w:85px" placeholder="…" spellcheck="false"></span>
+    data from 17 developed countries, 17 Latin American countries, 11 Eastern European transition countries, and 9 less developed countries, finding that over long periods (typically 10+ years), economic growth was not 
+    <span class="gap-wrap"><span class="gap-number">#16</span><input class="gap-input" data-answer="systematically" data-hint="consistently / in a regular pattern" style="--w:120px" placeholder="…" spellcheck="false"></span>
+    associated with rising happiness, thus reaffirming the paradox on a broader empirical base [6]. Li and Shi (2019) further examined the mechanisms 
+    <span class="gap-wrap"><span class="gap-number">#17</span><input class="gap-input" data-answer="underlying" data-hint="lying beneath / at the root of" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    the paradox, finding that in China, economic growth did not translate into higher happiness due to rising aspirations and widening inequality [7].
+  </p>
+
+  <div class="sub-heading">The role of social capital and non-economic factors.</div>
+  <p>
+    Bartolini and Sarracino (2014) showed using long-run time-series data that while GDP 
+    <span class="gap-wrap"><span class="gap-number">#18</span><input class="gap-input" data-answer="correlates" data-hint="shows statistical relationship (___ positively with)" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    positively with happiness in the short run, this relationship weakens in the medium term and vanishes in the long run. Instead, trends in social capital (trust, social relationships) largely 
+    <span class="gap-wrap"><span class="gap-number">#19</span><input class="gap-input" data-answer="predict" data-hint="forecast / determine in advance" style="--w:80px" placeholder="…" spellcheck="false"></span>
+    the evolution of subjective well-being over time [8].
+  </p>
+
+  <!-- SECTION 3 -->
+  <div class="section-heading">3. The Case Against the Proposition: Evidence That Growth Does Increase Happiness</div>
+  <p>
+    A major 
+    <span class="gap-wrap"><span class="gap-number">#20</span><input class="gap-input" data-answer="challenge" data-hint="criticism / objection / rebuttal" style="--w:90px" placeholder="…" spellcheck="false"></span>
+    to the paradox came from Stevenson and Wolfers (2008), who argued that the Easterlin Paradox was a "statistical illusion." Using richer datasets covering many more countries than were available to Easterlin, they found a clear positive relationship between average subjective well-being and GDP per capita across countries, with no evidence of a 
+    <span class="gap-wrap"><span class="gap-number">#21</span><input class="gap-input" data-answer="satiation" data-hint="point of fullness / satisfaction beyond which more is unwanted" style="--w:95px" placeholder="…" spellcheck="false"></span>
+    point beyond which wealthier countries show no further increases in happiness [9]. They 
+    <span class="gap-wrap"><span class="gap-number">#22</span><input class="gap-input" data-answer="demonstrated" data-hint="proved / showed convincingly" style="--w:115px" placeholder="…" spellcheck="false"></span>
+    that the relationship between income and well-being is log-linear both across countries and over time within countries.
+  </p>
+  <p>
+    Veenhoven and Hagerty (2006) 
+    <span class="gap-wrap"><span class="gap-number">#23</span><input class="gap-input" data-answer="analyzed" data-hint="examined systematically" style="--w:85px" placeholder="…" spellcheck="false"></span>
+    trend data on happiness in 21 nations from 1972–1994 and found that average happiness had actually increased in most nations, including the USA, contrary to Easterlin's claims [10]. Veenhoven and Vergunst (2014) later expanded this analysis to 1,531 data points in 67 nations, finding a positive 
+    <span class="gap-wrap"><span class="gap-number">#24</span><input class="gap-input" data-answer="correlation" data-hint="statistical relationship between two variables" style="--w:105px" placeholder="…" spellcheck="false"></span>
+    (r = +0.20) between GDP growth and rises in happiness. They estimated that a 1% annual growth in income per capita was associated with a rise in average happiness of 0.0034 on a 0–10 scale — small but non-zero, and they labeled the Easterlin Paradox an "illusion" [11].
+  </p>
+
+  <!-- SECTION 4 -->
+  <div class="section-heading">4. Reconciling the Evidence: Key Moderating Factors</div>
+  <p>
+    The apparent 
+    <span class="gap-wrap"><span class="gap-number">#25</span><input class="gap-input" data-answer="contradiction" data-hint="conflict / inconsistency between two claims" style="--w:110px" placeholder="…" spellcheck="false"></span>
+    between these two camps can be partially resolved by recognizing that several important factors 
+    <span class="gap-wrap"><span class="gap-number">#26</span><input class="gap-input" data-answer="moderate" data-hint="influence the strength of the relationship between two variables" style="--w:95px" placeholder="…" spellcheck="false"></span>
+    the relationship between income growth and happiness in wealthy countries.
+  </p>
+
+  <div class="sub-heading">4.1 Income Inequality</div>
+  <p>
+    A crucial 
+    <span class="gap-wrap"><span class="gap-number">#27</span><input class="gap-input" data-answer="insight" data-hint="important understanding / key finding" style="--w:80px" placeholder="…" spellcheck="false"></span>
+    comes from Oishi and Kesebir (2015), who showed that economic growth is not associated with increases in happiness when it is 
+    <span class="gap-wrap"><span class="gap-number">#28</span><input class="gap-input" data-answer="accompanied" data-hint="___ by = happening together with" style="--w:115px" placeholder="…" spellcheck="false"></span>
+    by growing income inequality. In their analysis of 34 countries, earlier instances of the Easterlin Paradox (no happiness increase despite growth) can be explained by the frequent 
+    <span class="gap-wrap"><span class="gap-number">#29</span><input class="gap-input" data-answer="concurrence" data-hint="simultaneous occurrence of two things" style="--w:110px" placeholder="…" spellcheck="false"></span>
+    of economic growth and rising inequality. When growth is broadly shared, happiness does increase [12]. This suggests that how growth is distributed matters more than growth itself in wealthy countries.
+  </p>
+
+  <div class="sub-heading">4.2 Asymmetric Responses to Growth vs. Contraction</div>
+  <p>
+    De Neve et al. (2018) found that subjective well-being is more than twice as sensitive to negative economic growth as to 
+    <span class="gap-wrap"><span class="gap-number">#30</span><input class="gap-input" data-answer="equivalent" data-hint="equal in size / comparable" style="--w:100px" placeholder="…" spellcheck="false"></span>
+    positive growth. This asymmetry means that in countries that experience both expansions and contractions, the net long-term effect of growth on happiness may be 
+    <span class="gap-wrap"><span class="gap-number">#31</span><input class="gap-input" data-answer="muted" data-hint="reduced in strength / dampened" style="--w:75px" placeholder="…" spellcheck="false"></span>
+    by the disproportionate psychological impact of recessions [13].
+  </p>
+
+  <div class="sub-heading">4.3 The Role of Relative Income</div>
+  <p>
+    Clark et al. (2008) provided a comprehensive 
+    <span class="gap-wrap"><span class="gap-number">#32</span><input class="gap-input" data-answer="theoretical" data-hint="conceptual / not purely empirical (___ framework)" style="--w:105px" placeholder="…" spellcheck="false"></span>
+    framework showing that the Easterlin Paradox can be explained by the role of relative income comparisons. People compare their income to others (social comparison) and to their own past income (habituation). These comparisons can 
+    <span class="gap-wrap"><span class="gap-number">#33</span><input class="gap-input" data-answer="offset" data-hint="counterbalance / cancel out" style="--w:75px" placeholder="…" spellcheck="false"></span>
+    the direct effect of absolute income gains [14]. Yasar (2018) found that the effect of relative income on subjective well-being 
+    <span class="gap-wrap"><span class="gap-number">#34</span><input class="gap-input" data-answer="varies" data-hint="differs / changes (___ across countries)" style="--w:75px" placeholder="…" spellcheck="false"></span>
+    across countries as a function of average income, with relative comparisons playing a larger role in wealthier nations [15].
+  </p>
+
+  <div class="sub-heading">4.4 Happiness Convergence</div>
+  <p>
+    Interestingly, Clark et al. (2015) found that economic growth in wealthy countries has been associated with a 
+    <span class="gap-wrap"><span class="gap-number">#35</span><input class="gap-input" data-answer="reduction" data-hint="decrease / decline (___ in inequality)" style="--w:95px" placeholder="…" spellcheck="false"></span>
+    in happiness inequality — a "leveling up" effect where the share of both the very unhappy and the perfectly happy declines, reducing the 
+    <span class="gap-wrap"><span class="gap-number">#36</span><input class="gap-input" data-answer="variance" data-hint="statistical spread / degree of variation" style="--w:85px" placeholder="…" spellcheck="false"></span>
+    of well-being even if the mean does not change much [16].
+  </p>
+
+  <div class="sub-heading">4.5 The Magnitude Question</div>
+  <p>
+    Beja (2014) offered a middle-ground 
+    <span class="gap-wrap"><span class="gap-number">#37</span><input class="gap-input" data-answer="interpretation" data-hint="reading / explanation of the evidence" style="--w:115px" placeholder="…" spellcheck="false"></span>
+    . He found a statistically significant positive long-run relationship between income growth and happiness, but the magnitude was very small — so small that one could argue it is economically 
+    <span class="gap-wrap"><span class="gap-number">#38</span><input class="gap-input" data-answer="insignificant" data-hint="too small to matter / negligible" style="--w:115px" placeholder="…" spellcheck="false"></span>
+    . He argued that to genuinely reject the Easterlin Paradox, one needs not just statistical significance but evidence that the effect is meaningful in size [17].
+  </p>
+
+  <!-- SECTION 5 -->
+  <div class="section-heading">5. Synthesis and Conclusion</div>
+  <p>
+    The claim that "if a country is already rich, any addition in economic wealth does not make its citizen happier" is partially supported but also partially refuted by the evidence.
+  </p>
+  <p>
+    Where the statement is supported: In wealthy countries where growth is accompanied by rising inequality [12], where adaptation and social comparison are strong [1,2,14], where the "hedonic treadmill" 
+    <span class="gap-wrap"><span class="gap-number">#39</span><input class="gap-input" data-answer="operates" data-hint="functions / is in effect" style="--w:90px" placeholder="…" spellcheck="false"></span>
+    [3,4], and where the focusing illusion leads people to overestimate the impact of income on their daily happiness [5], additional economic growth yields minimal or no net gains in well-being. Moreover, when the magnitude of the effect is considered, the impact is often economically negligible [17].
+  </p>
+  <p>
+    Where the statement is not supported: Cross-sectional comparisons across countries at a given time consistently show that richer countries have higher average happiness, with no clear satiation point [9]. Over time within countries, the best available evidence suggests a positive but modest relationship between economic growth and happiness [9–11]. Nor is it true that absolutely no happiness increase occurs — it is more accurate to say that the increases are smaller than what would be predicted by the within-country cross-sectional relationship between income and happiness.
+  </p>
+  <p>
+    The most nuanced conclusion is that in already-rich countries, additional wealth has a positive but greatly 
+    <span class="gap-wrap"><span class="gap-number">#40</span><input class="gap-input" data-answer="attenuated" data-hint="weakened / reduced in strength" style="--w:105px" placeholder="…" spellcheck="false"></span>
+    , conditional, and context-dependent effect on happiness. The effect depends critically on:
+  </p>
+  <ul style="margin: 0 0 16px 24px; color: var(--ink);">
+    <li>Whether income inequality is rising or falling alongside growth [12]</li>
+    <li>Whether social capital and relational goods are being maintained [8]</li>
+    <li>Whether the growth is positive (gains matter little) or negative (losses hurt a lot) [13]</li>
+    <li>The strength of relative income comparisons and adaptation in the particular society [14,15]</li>
+  </ul>
+  <p>
+    Thus, the original question should be answered: No, the statement is too absolute. Additional wealth in rich countries does correlate with modest increases in happiness under certain conditions, but the effects are indeed small, heavily moderated by distributional and social factors, and often drowned out by other determinants of well-being. As Frank (2012) argued, the strongest evidence supports the view that both absolute and relative income matter, but the relative component becomes increasingly important as societies become wealthier [18].
+  </p>
+
+  <div id="results-panel">
+    <h2>Your Results</h2>
+    <div class="big-score"><span id="final-correct">0</span> / 40</div>
+    <p id="results-msg"></p>
+  </div>
+</main>
+
+<script>
+  const inputs = document.querySelectorAll('.gap-input');
+  const total = inputs.length;
+
+  function normalize(s) {
+    return s.trim().toLowerCase();
+  }
+
+  function updateProgress() {
+    const filled = [...inputs].filter(i => i.value.trim() !== '').length;
+    const pct = Math.round((filled / total) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = filled + ' / ' + total + ' gaps completed';
+  }
+
+  inputs.forEach(input => {
+    const len = input.dataset.answer.length;
+    const px = Math.max(80, len * 11 + 20);
+    input.style.setProperty('--w', px + 'px');
+    input.style.width = px + 'px';
+
+    // Add hint button + popup
+    const wrap = input.closest('.gap-wrap');
+    const hintBtn = document.createElement('button');
+    hintBtn.className = 'hint-btn';
+    hintBtn.type = 'button';
+    hintBtn.title = 'Hint';
+    hintBtn.textContent = '?';
+    const popup = document.createElement('div');
+    popup.className = 'hint-popup';
+    popup.textContent = input.dataset.hint;
+    wrap.appendChild(hintBtn);
+    wrap.appendChild(popup);
+
+    hintBtn.addEventListener('mouseenter', () => popup.style.display = 'block');
+    hintBtn.addEventListener('mouseleave', () => popup.style.display = 'none');
+    hintBtn.addEventListener('focus', () => popup.style.display = 'block');
+    hintBtn.addEventListener('blur', () => popup.style.display = 'none');
+
+    input.addEventListener('input', updateProgress);
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        checkSingle(input);
+        // move to next input
+        const arr = [...inputs];
+        const idx = arr.indexOf(input);
+        if (idx < arr.length - 1) arr[idx + 1].focus();
+      }
+    });
+  });
+
+  function checkSingle(input) {
+    if (input.classList.contains('revealed')) return;
+    const val = normalize(input.value);
+    const ans = normalize(input.dataset.answer);
+    input.classList.remove('correct', 'wrong');
+    if (val === ans) {
+      input.classList.add('correct');
+      input.disabled = true;
+    } else if (val !== '') {
+      input.classList.add('wrong');
+      setTimeout(() => input.classList.remove('wrong'), 400);
+    }
+  }
+
+  function checkAll() {
+    inputs.forEach(checkSingle);
+    const correct = [...inputs].filter(i => i.classList.contains('correct')).length;
+    document.getElementById('score-display').style.display = 'flex';
+    document.getElementById('score-val').textContent = correct;
+    document.getElementById('total-val').textContent = total;
+
+    const panel = document.getElementById('results-panel');
+    panel.style.display = 'block';
+    document.getElementById('final-correct').textContent = correct;
+    const pct = Math.round((correct / total) * 100);
+    let msg = '';
+    if (pct === 100) msg = 'Perfect score! Outstanding command of academic vocabulary.';
+    else if (pct >= 80) msg = 'Excellent! You have a strong grasp of academic collocations.';
+    else if (pct >= 60) msg = 'Good effort. Review the highlighted gaps and try again.';
+    else msg = 'Keep practising. Focus on the hints and retry the incorrect items.';
+    document.getElementById('results-msg').textContent = msg;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function revealAll() {
+    inputs.forEach(input => {
+      if (!input.classList.contains('correct')) {
+        input.value = input.dataset.answer;
+        input.classList.remove('wrong');
+        input.classList.add('revealed');
+        input.disabled = true;
+      }
+    });
+    updateProgress();
+  }
+
+  function resetAll() {
+    inputs.forEach(input => {
+      input.value = '';
+      input.classList.remove('correct', 'wrong', 'revealed');
+      input.disabled = false;
+    });
+    document.getElementById('score-display').style.display = 'none';
+    document.getElementById('results-panel').style.display = 'none';
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>

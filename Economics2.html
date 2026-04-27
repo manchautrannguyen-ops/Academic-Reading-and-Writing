@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wealth and Happiness – Gap Fill Exercise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1614;
+    --paper: #faf7f2;
+    --cream: #f0ead8;
+    --accent: #8b3a1a;
+    --accent-light: #c4622d;
+    --gold: #c9932a;
+    --rule: #c9b89a;
+    --gap-bg: #fff9f0;
+    --gap-border: #c9932a;
+    --correct: #2d6a4f;
+    --incorrect: #9b2226;
+    --hint-bg: #fef6e4;
+    --hint-border: #c9932a;
+    --shadow: rgba(90,60,30,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.85;
+    padding: 0 0 80px;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,.04) 39px,
+      rgba(255,255,255,.04) 40px
+    );
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(22px, 4vw, 38px);
+    letter-spacing: .02em;
+    position: relative;
+  }
+  header p.subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    position: relative;
+  }
+  .header-rule {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 16px auto 0;
+    position: relative;
+  }
+
+  /* ── Scoreboard ── */
+  #scoreboard {
+    background: var(--cream);
+    border-bottom: 2px solid var(--rule);
+    padding: 14px 40px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 300;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  #scoreboard span strong { color: var(--accent); font-weight: 700; }
+  .score-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border-radius: 3px;
+    border: 2px solid currentColor;
+    cursor: pointer;
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: background .18s, color .18s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+  .btn-secondary { background: transparent; color: var(--ink); border-color: var(--rule); }
+  .btn-secondary:hover { background: var(--cream); }
+  .btn-gold { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .btn-gold:hover { filter: brightness(1.1); }
+
+  /* ── Document ── */
+  .document {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 40px 40px;
+  }
+
+  /* ── Section titles ── */
+  .doc-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    margin-bottom: 28px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 44px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--rule);
+    color: var(--accent);
+  }
+  .subsection-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 400;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  .numbered-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 28px 0 8px;
+    color: var(--accent);
+  }
+
+  p { margin-bottom: 16px; }
+
+  /* ── Gap inputs ── */
+  .gap-wrap {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    margin: 0 2px;
+  }
+  .gap-input {
+    display: inline-block;
+    min-width: 90px;
+    width: auto;
+    padding: 2px 8px 2px 8px;
+    border: none;
+    border-bottom: 2px solid var(--gap-border);
+    background: var(--gap-bg);
+    border-radius: 3px 3px 0 0;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16.5px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s, background .15s;
+    text-align: center;
+    vertical-align: baseline;
+  }
+  .gap-input:focus {
+    border-bottom-color: var(--accent-light);
+    background: #fff;
+  }
+  .gap-input.correct {
+    border-bottom-color: var(--correct);
+    background: #edf7f0;
+    color: var(--correct);
+    font-weight: 700;
+  }
+  .gap-input.incorrect {
+    border-bottom-color: var(--incorrect);
+    background: #fdf0f0;
+    color: var(--incorrect);
+  }
+
+  /* hint button inside gap-wrap */
+  .hint-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--gold);
+    font-size: 11px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 2px;
+    line-height: 1;
+    font-family: 'Source Serif 4', serif;
+    transition: background .15s;
+    flex-shrink: 0;
+  }
+  .hint-btn:hover { background: var(--hint-bg); }
+
+  /* hint tooltip */
+  .hint-box {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    transform: translateX(-50%);
+    background: var(--hint-bg);
+    border: 1px solid var(--hint-border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 200;
+    color: var(--ink);
+    box-shadow: 0 2px 8px var(--shadow);
+    font-style: italic;
+    pointer-events: none;
+  }
+  .hint-box::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top: none;
+    border-bottom-color: var(--hint-border);
+  }
+  .gap-wrap.hint-visible .hint-box { display: block; }
+
+  /* feedback badge after check */
+  .gap-feedback {
+    display: none;
+    font-size: 12px;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  .gap-feedback.correct-fb { color: var(--correct); }
+  .gap-feedback.wrong-fb { color: var(--incorrect); }
+
+  /* ── Results banner ── */
+  #results-banner {
+    display: none;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px 40px;
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    margin: 20px 0 0;
+    border-radius: 4px;
+    max-width: 820px;
+    margin: 20px auto 0;
+  }
+  #results-banner span { color: var(--gold); }
+
+  /* ── Divider ── */
+  .doc-divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+
+  /* ── Simpler language block ── */
+  .simpler-section {
+    background: var(--cream);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 24px;
+    margin: 8px 0 16px;
+  }
+  .simpler-section .arg-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .simpler-section .arg-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 15.5px;
+  }
+  .simpler-section .example {
+    font-style: italic;
+    font-size: 15px;
+    color: #5a4030;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 640px) {
+    .document { padding: 28px 18px; }
+    #scoreboard { padding: 12px 18px; }
+    header { padding: 32px 18px 24px; }
+    .score-actions { margin-left: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Wealth and Happiness</h1>
+  <p class="subtitle">Academic Gap-Fill Exercise</p>
+  <div class="header-rule"></div>
+</header>
+
+<div id="scoreboard">
+  <span>Gaps: <strong id="total-count">0</strong></span>
+  <span>Filled: <strong id="filled-count">0</strong></span>
+  <span id="score-display" style="display:none">Score: <strong id="score-val">0</strong> / <strong id="score-total">0</strong></span>
+  <div class="score-actions">
+    <button class="btn btn-gold" onclick="checkAll()">✓ Check Answers</button>
+    <button class="btn btn-secondary" onclick="resetAll()">↺ Reset</button>
+  </div>
+</div>
+
+<div class="document">
+
+  <p><em>Some people think that if a country is already rich, any addition in economic wealth does not make its citizen happier. To what extent do you agree or disagree?</em></p>
+
+  <h2 class="section-heading">Does Further Economic Growth Make Citizens of Already Rich Countries Happier? Arguments and Reasoning</h2>
+
+  <p>The
+    <span class="gap-wrap" data-answer="proposition" data-hint="a statement or claim put forward for consideration">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  that once a country is already rich, additional economic wealth does not
+    <span class="gap-wrap" data-answer="meaningfully" data-hint="in a way that is significant or has real importance">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  increase its citizens' happiness is one of the most debated questions in the social sciences. It traces back to what is known as the Easterlin Paradox - the
+    <span class="gap-wrap" data-answer="empirical" data-hint="based on observation and measured data rather than theory">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  observation, first proposed by Richard Easterlin in 1974, that average happiness levels in developed countries did not rise over time despite substantial economic growth [1], [2]. Below, I present the key arguments supporting this view, organized by their underlying reasoning.</p>
+
+  <h3 class="numbered-heading">1. The Hedonic Treadmill (Adaptation)</h3>
+
+  <p>One of the most powerful
+    <span class="gap-wrap" data-answer="theoretical" data-hint="relating to ideas and principles rather than practice">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  arguments is the hedonic treadmill (also called adaptation theory). The core idea is that humans have a relatively stable "set point" of happiness, determined largely by genetics and personality. Positive or negative life events - including increases in income - may temporarily shift well-being above or below this set point, but people quickly adapt and return to their
+    <span class="gap-wrap" data-answer="baseline" data-hint="a starting point used for comparison; a reference level">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  level [3]. As Diener, Lucas, and Scollon (2006) explain, the classic hedonic treadmill model implies that "good and bad events temporarily affect happiness, but people quickly adapt back to hedonic
+    <span class="gap-wrap" data-answer="neutrality" data-hint="a state of being neither positive nor negative">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  ," which would mean that "individual and societal efforts to increase happiness are doomed to failure" [3].</p>
+
+  <p>In the context of wealthy nations, this means that as the entire society grows richer, aspirations and expectations rise
+    <span class="gap-wrap" data-answer="commensurately" data-hint="to a corresponding degree; in proportion">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  . What was once considered a luxury (e.g., a car, a smartphone, international travel) soon becomes a perceived necessity, and the incremental happiness boost from each new income increase diminishes. Easterlin himself argued that "an increase in income, and thus in the goods at one's disposal, does not bring with it a lasting increase in happiness because of the negative effect on utility of hedonic
+    <span class="gap-wrap" data-answer="adaptation" data-hint="the process of getting used to new circumstances">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  " [1]. People fail to anticipate the extent of this adaptation, which leads them to
+    <span class="gap-wrap" data-answer="overinvest" data-hint="to invest too much in something; to put in excessive effort">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  in income generation at the expense of other life domains.</p>
+
+  <p>The revised hedonic treadmill model acknowledges that set points can change under some circumstances, but still supports the idea that adaptation to material gains is
+    <span class="gap-wrap" data-answer="substantial" data-hint="large in size, value, or importance">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  and that income increases produce only
+    <span class="gap-wrap" data-answer="transient" data-hint="lasting only a short time; not permanent">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  happiness effects [3].</p>
+
+  <h3 class="numbered-heading">2. The Positional Treadmill (Social Comparison)</h3>
+
+  <p>A second crucial argument concerns
+    <span class="gap-wrap" data-answer="relative" data-hint="considered in relation to something else; not absolute">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  income and social comparison. Humans evaluate their well-being not in absolute terms, but relative to others - a phenomenon
+    <span class="gap-wrap" data-answer="rooted" data-hint="having its origins in; firmly based in">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  in evolutionary psychology and studied extensively in the literature. Clark, Frijters, and Shields (2008) provide a comprehensive review of how relative income shapes happiness: "Income may be evaluated relative to others (social comparison) or to oneself in the past
+    <span class="gap-wrap" data-answer="(habituation)" data-hint="the process of becoming accustomed to something over time">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  " [4].</p>
+
+  <p>This creates a positional treadmill: when everyone in a country grows richer simultaneously, one's relative
+    <span class="gap-wrap" data-answer="position" data-hint="one's rank or standing in a hierarchy or distribution">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  in the income distribution may remain unchanged. The new car, bigger house, or fancier vacation only makes one feel better off if others do not have them as well. But when economic growth lifts all boats, the positional advantage disappears. As Binswanger (2006) explains, the "positional treadmill" means that much of the extra income is spent on positional goods - items whose value depends on their
+    <span class="gap-wrap" data-answer="scarcity" data-hint="the state of being limited in supply; rarity">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  relative to others - which yields no net gain in aggregate happiness [5]. The result is a zero-sum game: individual income matters a great deal for how happy one is relative to others within a country at a given point in time (a robust micro-level finding), but average income growth across an entire society does not raise average happiness (the paradoxical macro-level finding) [4].</p>
+
+  <p>When a country is already rich, further growth primarily shifts the
+    <span class="gap-wrap" data-answer="frame" data-hint="a reference structure against which things are judged">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of reference upward without changing relative standings, and therefore fails to produce
+    <span class="gap-wrap" data-answer="lasting" data-hint="enduring; continuing for a long time">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  gains in well-being [1], [4].</p>
+
+  <h3 class="numbered-heading">3. The Distinction Between Life Evaluation and Emotional Well-Being</h3>
+
+  <p>A more nuanced argument comes from the work of Kahneman and Deaton (2010), who famously
+    <span class="gap-wrap" data-answer="distinguished" data-hint="drew a clear difference between two things">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  between two components of subjective well-being: life evaluation (the reflective judgment one makes about one's life overall) and emotional well-being (the day-to-day experience of positive and negative emotions). Their analysis of over 450,000 responses from the Gallup-Healthways Well-Being Index found that while life evaluation rises steadily with income (even at high levels), emotional well-being
+    <span class="gap-wrap" data-answer="plateaus" data-hint="reaches a level and stops increasing">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  at an annual income of approximately $75,000 [6]. Beyond this
+    <span class="gap-wrap" data-answer="threshold" data-hint="the point at which something begins or changes">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  , further income increases were not associated with greater daily happiness, enjoyment, or reduced stress and sadness.</p>
+
+  <p>This finding is echoed in the "focusing illusion" argument by Kahneman, Krueger, Schkade, Schwarz, and Stone (2006): people
+    <span class="gap-wrap" data-answer="exaggerate" data-hint="overstate; magnify beyond what is accurate">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the contribution of income to happiness because when asked to evaluate their life, they focus
+    <span class="gap-wrap" data-answer="disproportionately" data-hint="to an extent that is too large relative to what is justified">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  on income and conventional achievements, but in moment-to-moment experience, richer people are "barely happier than others" [7]. For wealthy countries, this implies that further economic growth may improve citizens' cognitive evaluations of how well their lives are going (life satisfaction scores), but does little to improve their actual daily emotional experience.</p>
+
+  <h3 class="numbered-heading">4. Diminishing Marginal Utility of Income and Satiation of Basic Needs</h3>
+
+  <p>A classic economic argument invokes the
+    <span class="gap-wrap" data-answer="diminishing" data-hint="decreasing in size or importance (often precedes 'marginal utility' or 'returns')">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  marginal utility of income. In poor countries, income growth enables people to meet basic
+    <span class="gap-wrap" data-answer="physiological" data-hint="relating to the body's basic biological needs">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  needs - food, shelter, clean water, basic healthcare - and these improvements have large, demonstrable effects on happiness. However, once a country reaches a certain level of
+    <span class="gap-wrap" data-answer="affluence" data-hint="the state of having a great deal of wealth">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  (roughly where basic needs are universally met), additional income is spent on goods and services that have much smaller marginal effects on well-being [8].</p>
+
+  <p>The satiation thesis rests on a plausible psychological
+    <span class="gap-wrap" data-answer="foundation" data-hint="an underlying basis or rationale">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  : once a person's material needs are comfortably met, further consumption yields progressively smaller
+    <span class="gap-wrap" data-answer="increments" data-hint="small increases or additions, usually by a fixed amount">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of happiness. At the national level, this translates into a flattening of the happiness-income curve for wealthy countries, even if no strict threshold exists.</p>
+
+  <h3 class="numbered-heading">5. Rising Aspirations and the Aspiration Treadmill</h3>
+
+  <p>A related but distinct argument involves the
+    <span class="gap-wrap" data-answer="ratcheting" data-hint="a one-directional upward movement, like a ratchet mechanism">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of aspirations. As a country grows richer, its citizens' aspirations rise correspondingly. What defines a "good life" shifts upward over time. Binswanger (2006) describes this as a broader class of "treadmill effects" beyond the hedonic and positional ones, including the multi-option treadmill - where people in wealthy societies face an overwhelming number of choices, leading to increased stress, regret, and decision
+    <span class="gap-wrap" data-answer="fatigue" data-hint="tiredness resulting from too many choices or demands">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  - and the time-saving treadmill, where labour-saving innovations intended to free up time paradoxically lead to a faster pace of life and greater time pressure [5].</p>
+
+  <p>The aspirational treadmill means that the goalposts for what constitutes a satisfactory
+    <span class="gap-wrap" data-answer="standard" data-hint="a level of quality or attainment used as a measure">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of living keep moving. As Ng and Diener (2014) found, financial satisfaction remains a significant
+    <span class="gap-wrap" data-answer="predictor" data-hint="a variable or factor that can be used to forecast an outcome">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of life evaluation even in rich nations, but the very definition of what is "enough" money shifts upward as national wealth grows, preventing sustained gains in happiness [10].</p>
+
+  <h3 class="numbered-heading">6. The Role of Income Inequality</h3>
+
+  <p>A further argument is that economic growth in wealthy countries often
+    <span class="gap-wrap" data-answer="co-occurs" data-hint="happens at the same time as something else">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  with rising income inequality, which undermines the happiness benefits of growth. Oishi and Kesebir (2015) demonstrated across 34 countries that "economic growth was not associated with increases in happiness when it was accompanied by growing income
+    <span class="gap-wrap" data-answer="inequality" data-hint="unequal distribution of resources or opportunities">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  " [2]. They argued that earlier instances of the Easterlin paradox "can thus be explained by the frequent
+    <span class="gap-wrap" data-answer="concurrence" data-hint="the simultaneous occurrence of events">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of economic growth and growing income inequality" [2]. Even when average income rises, if the gains accrue disproportionately to the top, the majority of citizens may feel relatively worse off (a manifestation of both the positional treadmill and the negative effects of perceived unfairness). Moreover, high inequality erodes social trust and community cohesion, which are powerful
+    <span class="gap-wrap" data-answer="determinants" data-hint="factors that decide or strongly influence an outcome">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of well-being.</p>
+
+  <h3 class="numbered-heading">7. Shifting Priorities: Postmaterialist Values</h3>
+
+  <p>As societies become wealthier and basic material security becomes widespread, citizens shift toward
+    <span class="gap-wrap" data-answer="postmaterialist" data-hint="prioritising non-material values like autonomy and self-expression">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  values - prioritizing autonomy, meaningful work, social relationships, community belonging, self-expression, and environmental quality over further material
+    <span class="gap-wrap" data-answer="accumulation" data-hint="the gradual gathering or building up of something over time">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  . This implies that economic growth beyond a certain point addresses needs that are increasingly less
+    <span class="gap-wrap" data-answer="central" data-hint="of primary importance; at the heart of something">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  to people's happiness. In rich countries, factors such as respect, social support, and autonomy become stronger predictors of positive emotions than income does [10]. The diminishing returns to additional income are not simply a matter of adaptation, but reflect a genuine shift in what people value.</p>
+
+  <h3 class="numbered-heading">8. Opportunity Costs: Time, Relationships, and Health</h3>
+
+  <p>Finally, there is a powerful argument about
+    <span class="gap-wrap" data-answer="opportunity" data-hint="the cost of the next-best alternative foregone (economics term)">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  costs. The pursuit of further economic growth in wealthy countries often comes at the expense of leisure time, family relationships, community engagement, sleep, and health - all of which are robustly linked to happiness. Kahneman et al. (2006) found that people with above-average income "tend to be more tense, and do not spend more time in particularly
+    <span class="gap-wrap" data-answer="enjoyable" data-hint="giving pleasure; pleasant">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  activities" [7]. The very pursuit of higher income, driven by social comparison and the focusing illusion, may lead people to allocate excessive time to pecuniary goals while shortchanging
+    <span class="gap-wrap" data-answer="nonpecuniary" data-hint="not related to money; non-financial">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  ends such as family life and health, thereby reducing their happiness [1].</p>
+
+  <h2 class="section-heading">Simpler language</h2>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 1</div>
+    <div class="arg-title">People get used to having more</div>
+    <p>When people get richer, they quickly
+      <span class="gap-wrap" data-answer="stop" data-hint="cease doing something">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    feeling happy about it. What used to feel special - like owning a car or going on holiday - soon feels
+      <span class="gap-wrap" data-answer="normal" data-hint="ordinary; what one is used to">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    . So the happiness boost fades fast. This is called the "hedonic treadmill."</p>
+    <p class="example">Example: A pay rise feels great at first, but within months, people
+      <span class="gap-wrap" data-answer="adjust" data-hint="adapt or get used to a new situation">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    and want even more.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 2</div>
+    <div class="arg-title">We compare ourselves to others</div>
+    <p>People care more about having more than their neighbours than about having more in
+      <span class="gap-wrap" data-answer="absolute" data-hint="not relative; measured independently of other things">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    terms. If everyone gets richer at the same time, no one feels better
+      <span class="gap-wrap" data-answer="off" data-hint="in a better situation (phrasal: 'better ___')">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    compared to those around them - so happiness stays the same.</p>
+    <p class="example">Example: Getting a 5% pay rise
+      <span class="gap-wrap" data-answer="means" data-hint="signifies; amounts to">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    nothing if all your friends also got a 5% rise.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 3</div>
+    <div class="arg-title">Day-to-day feelings stop improving beyond a point</div>
+    <p>Research by Kahneman and Deaton found that how happy people feel in their daily lives stops
+      <span class="gap-wrap" data-answer="improving" data-hint="getting better; making progress">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    once income reaches a certain level. People may feel their life is "going well" on paper, but they don't actually feel more
+      <span class="gap-wrap" data-answer="positive" data-hint="favourable; constructive; the opposite of negative">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    emotions each day.</p>
+    <p class="example">Example: A millionaire isn't much happier in their everyday
+      <span class="gap-wrap" data-answer="mood" data-hint="a temporary state of mind or feeling">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    than someone earning a comfortable salary.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 4</div>
+    <div class="arg-title">Basic needs are already met</div>
+    <p>In poor countries, extra money helps people get food,
+      <span class="gap-wrap" data-answer="shelter" data-hint="a place to live; protection from the elements">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    , and healthcare - all things that directly improve lives. But in rich countries, these needs are already
+      <span class="gap-wrap" data-answer="covered" data-hint="provided for; taken care of">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    . Extra money goes on
+      <span class="gap-wrap" data-answer="luxuries" data-hint="things that are desirable but not essential; non-necessities">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    , which gives much smaller happiness benefits.</p>
+    <p class="example">Example: Buying a second car is less life-changing than affording food for the first time.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 5</div>
+    <div class="arg-title">Expectations keep rising</div>
+    <p>As a country gets wealthier, people's idea of a "good life" moves up with it. The things people want keep
+      <span class="gap-wrap" data-answer="expanding" data-hint="growing larger; becoming more extensive">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    , so they never feel truly
+      <span class="gap-wrap" data-answer="satisfied" data-hint="content; having had one's desires fulfilled">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    - the goalpost keeps moving.</p>
+    <p class="example">Example: A flat-screen TV once felt like a
+      <span class="gap-wrap" data-answer="luxury" data-hint="something desirable but not essential">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    ; now it's the minimum expected.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 6</div>
+    <div class="arg-title">Growth often comes with more inequality</div>
+    <p>Even when a country grows richer overall, the extra wealth often goes mostly to the top
+      <span class="gap-wrap" data-answer="earners" data-hint="people who receive income, usually from work">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    . This makes most people feel relatively worse off, not better. Inequality also
+      <span class="gap-wrap" data-answer="damages" data-hint="harms; has a negative effect on">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    trust between people, which harms happiness.</p>
+    <p class="example">Example: If only the richest 10%
+      <span class="gap-wrap" data-answer="benefit" data-hint="gain an advantage from something">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    from growth, the rest of the population may feel left behind.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 7</div>
+    <div class="arg-title">People start to value non-material things more</div>
+    <p>Once basic needs are covered, people begin to care more about relationships, freedom,
+      <span class="gap-wrap" data-answer="meaningful" data-hint="having purpose or significance">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    work, and community. Economic growth doesn't provide these things - and may actually get in the
+      <span class="gap-wrap" data-answer="way" data-hint="act as an obstacle; interfere (phrasal: 'get in the ___')">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    of them.</p>
+    <p class="example">Example: People in wealthy countries increasingly say they want more
+      <span class="gap-wrap" data-answer="leisure" data-hint="free time; time away from work">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    time, not more money.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 8</div>
+    <div class="arg-title">Chasing wealth costs us time and relationships</div>
+    <p>The effort to earn more money often means working longer hours, spending less time with family, and taking less
+      <span class="gap-wrap" data-answer="care" data-hint="attention and effort given to doing something properly">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    of health - all of which reduce happiness. People tend to
+      <span class="gap-wrap" data-answer="overestimate" data-hint="judge something to be greater than it really is">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    how much money will make them happy, and underestimate what they're giving
+      <span class="gap-wrap" data-answer="up" data-hint="sacrificing; relinquishing (phrasal: 'giving ___')">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    to get it.</p>
+    <p class="example">Example: A promotion with longer hours might increase salary but reduce happiness overall.</p>
+  </div>
+
+  <hr class="doc-divider"/>
+
+  <h2 class="section-heading">Arguments Against the Idea That Additional Wealth Does Not Increase Happiness in Rich Countries</h2>
+
+  <h3 class="subsection-heading">Why Additional Wealth Can Still Increase Happiness in Rich Countries: Arguments Against the Satiation Thesis</h3>
+
+  <p>The idea that once a country reaches a certain level of wealth, further economic growth ceases to increase the happiness of its citizens is commonly associated with the "Easterlin Paradox" - the claim that average happiness does not rise with average income over time in developed nations [1], [2]. While this view has been
+    <span class="gap-wrap" data-answer="influential" data-hint="having a great impact on people's thinking or actions">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  , there are compelling arguments against it. Below, I present a series of reasoning-based arguments that
+    <span class="gap-wrap" data-answer="challenge" data-hint="question or dispute the validity of">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the notion that additional economic wealth makes no difference to well-being in already-rich countries.</p>
+
+  <h3 class="numbered-heading">1. The "No Satiation Point" Argument</h3>
+
+  <p>A foundational argument against the satiation thesis is that there is no credible evidence for a specific income
+    <span class="gap-wrap" data-answer="threshold" data-hint="the point at which something begins or changes">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  beyond which happiness stops rising. Stevenson and Wolfers, in a comprehensive
+    <span class="gap-wrap" data-answer="reanalysis" data-hint="a second, more thorough analysis of existing data">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of multiple datasets spanning many decades, found "no evidence of a satiation point beyond which wealthier countries have no further increases in subjective well-being" [1, p. 3]. They demonstrated a clear, positive log-linear
+    <span class="gap-wrap" data-answer="relationship" data-hint="the way in which two or more things are connected">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  between GDP per capita and average life satisfaction across countries, including among the wealthiest nations [1]. In a subsequent study specifically testing for a satiation point, they concluded that "the data show virtually no evidence of a satiation point" [9, p. 598]. This suggests that the relationship between income and well-being does not flatten out at high income levels, but continues
+    <span class="gap-wrap" data-answer="monotonically" data-hint="consistently in one direction without reversal">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  .</p>
+
+  <h3 class="numbered-heading">2. The Compositional Argument: Different Kinds of Growth Yield Different Kinds of Happiness</h3>
+
+  <p>It is a mistake to treat "economic growth" as a
+    <span class="gap-wrap" data-answer="monolithic" data-hint="forming a single large, undifferentiated whole">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  phenomenon. Growth can take different forms: it can be accompanied by rising income inequality or by more
+    <span class="gap-wrap" data-answer="equitable" data-hint="fair and impartial in distribution">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  distribution; it can be environmentally destructive or sustainable; it can fund public goods or private consumption. Oishi and Kesebir showed that economic growth was not associated with increases in happiness precisely when it was accompanied by growing income inequality [7]. In countries where growth was more evenly
+    <span class="gap-wrap" data-answer="distributed" data-hint="spread or divided across a group">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  , happiness did rise [7]. The implication is that the failure to find happiness gains from growth may be attributable to how growth occurs, not to growth itself.</p>
+
+  <h3 class="numbered-heading">3. The Argument from the Evens-Out Effect: Growth Reduces Suffering</h3>
+
+  <p>Clark, Flèche, and Senik argued that economic growth in developed countries has a previously
+    <span class="gap-wrap" data-answer="overlooked" data-hint="failed to notice or consider; ignored">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  benefit: it reduces the variance of happiness [8]. Using data from six surveys, they found that happiness
+    <span class="gap-wrap" data-answer="inequality" data-hint="unequal spread or distribution of well-being">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  has fallen in countries that experienced income growth (but not in those that did not). Modern growth has reduced the share of both the "very unhappy" and the "perfectly happy," pulling people up from the bottom of the well-being distribution through mechanisms such as the
+    <span class="gap-wrap" data-answer="expansion" data-hint="the process of growing larger or more extensive">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of public goods [8]. Even if average happiness were to remain flat (which they question), the reduction of misery among the least well-off is itself a major welfare gain - and one that requires continued wealth.</p>
+
+  <h3 class="numbered-heading">4. The Aspiration Argument: Growth Raises Standards, But Also the Means to Meet Them</h3>
+
+  <p>The classic Easterlin explanation held that growth raises aspirations, which offset the benefits of higher income, creating a "hedonic treadmill" [2]. However, this logic has a
+    <span class="gap-wrap" data-answer="countervailing" data-hint="acting against something with an opposing force or effect">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  aspect: if aspirations rise with income, then stagnation would also leave citizens unhappy, because their aspirations would still be rising (driven by media, global comparisons, etc.) while the means to meet them would not. Growth is required not to make people maximally happy, but to keep
+    <span class="gap-wrap" data-answer="pace" data-hint="to match the speed or rate of something else">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  with rising aspirations that are a socially-driven phenomenon. Furthermore, Veenhoven and Hagerty demonstrated that, looking at long-run data from 1946–2004, average happiness did increase slightly in rich nations and considerably in poor ones,
+    <span class="gap-wrap" data-answer="contradicting" data-hint="providing evidence against; going against a claim">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the pure treadmill hypothesis [5].</p>
+
+  <h3 class="numbered-heading">5. The Argument from Human Development and Capabilities</h3>
+
+  <p>Wealth is not just about direct utility from consumption - it is also about the
+    <span class="gap-wrap" data-answer="expansion" data-hint="the process of growing larger or more extensive">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of capabilities and freedoms. As Deaton noted, following Sen's capability approach, well-being depends on a range of functionings - health, education, security, political rights - that enable people to lead a good life [11]. These capabilities require material resources to
+    <span class="gap-wrap" data-answer="secure" data-hint="to obtain and maintain something reliably">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  and maintain. A richer country can afford better healthcare systems, longer and more generous education, infrastructure that reduces pollution, scientific research that extends
+    <span class="gap-wrap" data-answer="lifespans" data-hint="the length of time people are expected to live">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  , and social safety nets that provide security.</p>
+
+  <h3 class="numbered-heading">6. The Argument from the Security Buffer</h3>
+
+  <p>Senik also pointed out that wealth provides a buffer stock against negative
+    <span class="gap-wrap" data-answer="shocks" data-hint="sudden unexpected events with serious consequences">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  [6]. At the individual level, wealth insulates against income shocks, unemployment, health crises, and natural disasters. At the national level, a richer economy is better equipped to handle recessions, pandemics, climate change adaptation, and
+    <span class="gap-wrap" data-answer="geopolitical" data-hint="relating to international politics and geography">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  volatility without catastrophic welfare losses. The psychological value of security - knowing that one has resources to fall back on - is a distinct
+    <span class="gap-wrap" data-answer="dimension" data-hint="an aspect or feature of something">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  of well-being that is easily overlooked in simple happiness averages.</p>
+
+  <h3 class="numbered-heading">7. The Argument Against the Focusing Illusion</h3>
+
+  <p>Kahneman et al. argued that people overestimate the impact of income on happiness due to a "focusing illusion" - when asked about money and happiness, people
+    <span class="gap-wrap" data-answer="disproportionately" data-hint="to an extent that is too large relative to what is justified">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  focus on income [12]. However, this argument cuts both ways. If people systematically
+    <span class="gap-wrap" data-answer="underestimate" data-hint="judge something to be smaller or less significant than it really is">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the importance of other factors (health, social relationships, autonomy) that are also improved by economic prosperity (better healthcare, more leisure time, fewer working hours), then the true contribution of wealth to well-being may be larger than self-reports suggest. Moreover, the finding that "moment-to-moment" happiness is less
+    <span class="gap-wrap" data-answer="correlated" data-hint="statistically related or associated">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  with income than "life satisfaction" [12] may simply mean that money affects different dimensions of well-being.</p>
+
+  <h3 class="numbered-heading">8. The Argument from the Top of the Distribution</h3>
+
+  <p>Even if there were
+    <span class="gap-wrap" data-answer="diminishing" data-hint="decreasing; becoming smaller (collocates with 'returns')">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  returns to the average citizen, growth can still significantly improve the lives of those at the bottom of the income distribution within wealthy countries. Powdthavee, Burkhauser, and De Neve found, using the Gallup World Poll, that top incomes are associated with higher well-being, but the more important point is that even in rich countries, a
+    <span class="gap-wrap" data-answer="substantial" data-hint="large in size, value, or importance">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  minority of the population does not have their basic needs fully met [13]. Economic growth generates the tax revenues and employment opportunities that lift these individuals. To say "growth doesn't increase happiness" because the average is flat
+    <span class="gap-wrap" data-answer="obscures" data-hint="hides or makes unclear; prevents understanding">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the fact that it can dramatically improve the lot of those who are worst off.</p>
+
+  <h3 class="numbered-heading">9. The Argument from Cross-Country Comparisons</h3>
+
+  <p>If additional wealth in rich countries did not matter, we would expect to see no
+    <span class="gap-wrap" data-answer="correlation" data-hint="a statistical relationship between two variables">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  between GDP and happiness among high-income nations. However, Sacks, Stevenson, and Wolfers reported that the cross-country
+    <span class="gap-wrap" data-answer="gradient" data-hint="the rate of change between two variables; a slope">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  between income and life satisfaction is positive and significant even among OECD countries [3]. They found that "well-being rises with income, whether we compare people in a single country and year, whether we look across countries, or whether we look at economic growth for a given country" [3, p. 1181]. This consistent relationship across multiple levels of analysis is strong evidence against the
+    <span class="gap-wrap" data-answer="satiation" data-hint="the state of being fully satisfied to the point of excess">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  view.</p>
+
+  <h3 class="numbered-heading">10. The Dynamic Argument: Growth and Time Series</h3>
+
+  <p>Veenhoven and Vergunst analyzed 199 time-series from 67 nations and found a positive
+    <span class="gap-wrap" data-answer="correlation" data-hint="a statistical relationship between two variables">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  between GDP growth and rising happiness [10]. On average, a 1% growth in income per capita per year was followed by a rise in average happiness [10]. While the effect size was modest, it was robust and
+    <span class="gap-wrap" data-answer="significant" data-hint="statistically meaningful; not due to chance">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  . This directly
+    <span class="gap-wrap" data-answer="refutes" data-hint="proves a statement or theory to be wrong">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  the claim that growth does not improve well-being in the long run. If it were true that wealthy countries were already at a ceiling, we would expect zero correlation - but we observe positive correlations.</p>
+
+  <h3 class="numbered-heading">Summary</h3>
+
+  <p>The claim that additional economic wealth does not increase happiness in already-rich countries rests on a selective reading of the evidence and several logical
+    <span class="gap-wrap" data-answer="pitfalls" data-hint="hidden dangers or unsuspected difficulties">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  . It conflates different types of growth, ignores
+    <span class="gap-wrap" data-answer="distributional" data-hint="relating to how resources or outcomes are spread across a population">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  effects, overlooks the expansion of capabilities and security that wealth enables, and fails to acknowledge that the data often show positive
+    <span class="gap-wrap" data-answer="associations" data-hint="statistical connections or links between variables">
+      <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+      <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+      <span class="hint-box"></span>
+    </span>
+  even among the wealthiest nations. The more accurate picture is that growth can and does improve well-being in rich countries - but how growth happens (equitably, sustainably, funding public goods) matters greatly for whether those gains are realized.</p>
+
+  <h2 class="section-heading">Simpler language</h2>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 1</div>
+    <div class="arg-title">There is no fixed point where money stops mattering</div>
+    <p>Research by Stevenson and Wolfers looked at data from many countries over many decades and found no clear income level beyond which happiness stops
+      <span class="gap-wrap" data-answer="rising" data-hint="increasing; going up">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    . Even among the wealthiest nations, higher income was
+      <span class="gap-wrap" data-answer="linked" data-hint="connected; associated">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    to higher life satisfaction - with no ceiling in sight.</p>
+    <p class="example">Example: Comparing rich countries, the wealthier ones consistently
+      <span class="gap-wrap" data-answer="report" data-hint="state or announce findings; give an account of">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    higher happiness - suggesting more money still makes a difference.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 2</div>
+    <div class="arg-title">It depends on how the growth is shared</div>
+    <p>Growth that benefits everyone - not just the rich - does raise happiness. When economic growth comes with greater
+      <span class="gap-wrap" data-answer="equality" data-hint="the state of being equal; fair distribution">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    , better public services, and improved healthcare and education, people do feel better off. The problem isn't growth itself, but growth that only goes to the
+      <span class="gap-wrap" data-answer="top" data-hint="the highest level; the wealthiest group">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    .</p>
+    <p class="example">Example: Nordic countries have grown economically while keeping inequality
+      <span class="gap-wrap" data-answer="low" data-hint="at a small or reduced level">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    - and consistently rank among the happiest in the world.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 3</div>
+    <div class="arg-title">Growth reduces the number of very unhappy people</div>
+    <p>Even if average happiness stays the same, economic growth in rich countries has been shown to reduce the
+      <span class="gap-wrap" data-answer="proportion" data-hint="a part or share of a whole; a ratio">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    of people who are deeply unhappy. Wealth funds public services that lift the
+      <span class="gap-wrap" data-answer="worst-off" data-hint="those in the most disadvantaged situation">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    members of society. Reducing misery at the bottom is a real gain, even if it doesn't show up clearly in overall
+      <span class="gap-wrap" data-answer="averages" data-hint="statistical means; figures representing a typical value">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    .</p>
+    <p class="example">Example: Expanding mental health services or housing support - funded by a growing economy - can transform the lives of the most vulnerable.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 4</div>
+    <div class="arg-title">Growth is needed just to keep up with rising expectations</div>
+    <p>Critics say growth raises expectations, creating a treadmill. But if expectations rise regardless - driven by social media, global comparisons, and advertising - then
+      <span class="gap-wrap" data-answer="stagnation" data-hint="a period of no growth or development">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    would leave people feeling stuck and dissatisfied. Growth is needed simply to keep
+      <span class="gap-wrap" data-answer="pace" data-hint="to match the speed or rate of something">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    with those rising expectations, not to fall behind them.</p>
+    <p class="example">Example: If living standards stop improving while people's sense of what a decent life looks like keeps rising,
+      <span class="gap-wrap" data-answer="dissatisfaction" data-hint="the feeling of not being pleased or content">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    will grow.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 5</div>
+    <div class="arg-title">Wealth funds healthcare, education, and security</div>
+    <p>Wealth isn't just about buying things. A richer country can
+      <span class="gap-wrap" data-answer="invest" data-hint="put money or resources into something to gain benefits">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    more in hospitals, schools, clean environments, and safety nets - all of which directly improve people's quality of life and well-being. Even in wealthy countries, there is room to improve in all of these areas, and continued growth makes that
+      <span class="gap-wrap" data-answer="investment" data-hint="the action of putting resources into something for future benefit">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    possible.</p>
+    <p class="example">Example: Richer countries were better
+      <span class="gap-wrap" data-answer="equipped" data-hint="provided with the necessary tools or resources">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    to respond to Covid-19 - funding vaccines, furlough schemes, and healthcare expansion.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 6</div>
+    <div class="arg-title">More wealth means more security against bad times</div>
+    <p>Having money in
+      <span class="gap-wrap" data-answer="reserve" data-hint="kept back for future use; stored up">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    - whether as an individual or as a nation - provides a sense of safety and peace of mind. Knowing you can
+      <span class="gap-wrap" data-answer="cope" data-hint="manage successfully; deal with difficulties">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    if something goes wrong is itself a source of happiness. As new threats
+      <span class="gap-wrap" data-answer="emerge" data-hint="come into existence; become apparent">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    , such as climate change or aging populations, wealthier countries are in a better position to protect their citizens.</p>
+    <p class="example">Example: Countries with stronger economies handled the 2008 financial crash with far less long-term damage to citizens' well-being than poorer nations.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 7</div>
+    <div class="arg-title">Money may reduce stress and anxiety, even if it doesn't increase joy</div>
+    <p>Some research suggests income makes less difference to moment-to-moment positive feelings - but this misses the other side: higher income significantly
+      <span class="gap-wrap" data-answer="reduces" data-hint="makes smaller or less; decreases">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    everyday stress, worry, and pain. Happiness is not just about feeling good; it's also about not feeling bad. Wealth
+      <span class="gap-wrap" data-answer="contributes" data-hint="plays a part in producing a result; adds to">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    powerfully to that second dimension.</p>
+    <p class="example">Example: Financial
+      <span class="gap-wrap" data-answer="stress" data-hint="pressure or tension caused by difficult circumstances">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    is one of the biggest sources of anxiety in people's daily lives - removing it has a real impact on well-being.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 8</div>
+    <div class="arg-title">Many people in rich countries still aren't comfortable</div>
+    <p>Saying "rich countries are already rich enough"
+      <span class="gap-wrap" data-answer="overlooks" data-hint="fails to notice or consider; ignores">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    the fact that even wealthy nations have significant numbers of people in
+      <span class="gap-wrap" data-answer="poverty" data-hint="the state of being extremely poor">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    or financial insecurity. Growth creates jobs and tax revenue that can directly improve the lives of those who are still struggling. Dismissing growth
+      <span class="gap-wrap" data-answer="ignores" data-hint="pays no attention to; disregards">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    those at the bottom who still have much to gain.</p>
+    <p class="example">Example: In the UK - one of the world's richest countries - millions of people rely on food banks. Growth that reaches them would clearly improve their happiness.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 9</div>
+    <div class="arg-title">Richer countries are happier than less rich ones</div>
+    <p>When you compare wealthy countries to each other, the richer ones still
+      <span class="gap-wrap" data-answer="tend" data-hint="be likely to behave in a particular way; have a general inclination">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    to report higher life satisfaction. If money stopped mattering at a certain point, we would
+      <span class="gap-wrap" data-answer="expect" data-hint="anticipate; predict with reason">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    all high-income countries to show similar happiness levels - but they don't. The pattern
+      <span class="gap-wrap" data-answer="holds" data-hint="remains true; is maintained">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    even at the top.</p>
+    <p class="example">Example: Luxembourg, one of the world's richest nations, consistently scores higher on happiness surveys than comparably developed but less wealthy peers.</p>
+  </div>
+
+  <div class="simpler-section">
+    <div class="arg-label">Argument 10</div>
+    <div class="arg-title">Long-term data shows growth does slowly raise happiness</div>
+    <p>A large study of 67 countries found that economic growth was followed by small but
+      <span class="gap-wrap" data-answer="consistent" data-hint="regular; unchanged over time; reliable">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    rises in average happiness over time. The effect is not dramatic, but it is real and
+      <span class="gap-wrap" data-answer="measurable" data-hint="able to be quantified or assessed">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    . If growth had no effect at all, we would expect to see no
+      <span class="gap-wrap" data-answer="relationship" data-hint="a connection or link between two things">
+        <input class="gap-input" type="text" autocomplete="off" spellcheck="false" aria-label="gap"/>
+        <button class="hint-btn" onclick="toggleHint(this)" title="Hint">?</button>
+        <span class="hint-box"></span>
+      </span>
+    - but we do.</p>
+    <p class="example">Example: Over the second half of the 20th century, happiness levels in Western Europe did edge upward alongside rising living standards.</p>
+  </div>
+
+</div>
+
+<div id="results-banner"></div>
+
+<script>
+  // ── Init ──────────────────────────────────────────────────────────────
+  const allWraps = document.querySelectorAll('.gap-wrap');
+  let checked = false;
+
+  // Set input widths and populate hints
+  allWraps.forEach(wrap => {
+    const answer = wrap.dataset.answer;
+    const hint = wrap.dataset.hint;
+    const input = wrap.querySelector('.gap-input');
+    const hintBox = wrap.querySelector('.hint-box');
+
+    // size input to answer length
+    input.style.width = Math.max(answer.length * 11 + 24, 80) + 'px';
+    hintBox.textContent = hint;
+  });
+
+  // Total count
+  document.getElementById('total-count').textContent = allWraps.length;
+
+  // ── Track filled ──────────────────────────────────────────────────────
+  document.querySelectorAll('.gap-input').forEach(input => {
+    input.addEventListener('input', () => {
+      const filled = [...document.querySelectorAll('.gap-input')].filter(i => i.value.trim() !== '').length;
+      document.getElementById('filled-count').textContent = filled;
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const inputs = [...document.querySelectorAll('.gap-input')];
+        const idx = inputs.indexOf(input);
+        if (idx < inputs.length - 1) inputs[idx + 1].focus();
+      }
+    });
+  });
+
+  // ── Hint toggle ───────────────────────────────────────────────────────
+  function toggleHint(btn) {
+    const wrap = btn.closest('.gap-wrap');
+    const wasVisible = wrap.classList.contains('hint-visible');
+    // close all
+    document.querySelectorAll('.gap-wrap.hint-visible').forEach(w => w.classList.remove('hint-visible'));
+    if (!wasVisible) wrap.classList.add('hint-visible');
+  }
+
+  // close hints on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.gap-wrap')) {
+      document.querySelectorAll('.gap-wrap.hint-visible').forEach(w => w.classList.remove('hint-visible'));
+    }
+  });
+
+  // ── Check All ─────────────────────────────────────────────────────────
+  function normalise(str) {
+    return str.trim().toLowerCase().replace(/[^a-z]/g, '');
+  }
+
+  function checkAll() {
+    checked = true;
+    let correct = 0;
+
+    allWraps.forEach(wrap => {
+      const answer = wrap.dataset.answer;
+      const input = wrap.querySelector('.gap-input');
+      const val = input.value;
+
+      input.classList.remove('correct', 'incorrect');
+
+      if (!val.trim()) return;
+
+      if (normalise(val) === normalise(answer)) {
+        input.classList.add('correct');
+        correct++;
+      } else {
+        input.classList.add('incorrect');
+      }
+    });
+
+    const filled = [...document.querySelectorAll('.gap-input')].filter(i => i.value.trim() !== '').length;
+    const banner = document.getElementById('results-banner');
+    banner.style.display = 'block';
+    banner.innerHTML = `You scored <span>${correct} / ${filled}</span> filled answers correct &nbsp;·&nbsp; <span>${allWraps.length - filled}</span> gap(s) still empty`;
+
+    document.getElementById('score-display').style.display = 'inline';
+    document.getElementById('score-val').textContent = correct;
+    document.getElementById('score-total').textContent = filled;
+
+    banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ── Reset ─────────────────────────────────────────────────────────────
+  function resetAll() {
+    checked = false;
+    document.querySelectorAll('.gap-input').forEach(input => {
+      input.value = '';
+      input.classList.remove('correct', 'incorrect');
+    });
+    document.getElementById('filled-count').textContent = '0';
+    document.getElementById('score-display').style.display = 'none';
+    document.getElementById('results-banner').style.display = 'none';
+    document.querySelectorAll('.gap-wrap.hint-visible').forEach(w => w.classList.remove('hint-visible'));
+  }
+</script>
+</body>
+</html>
